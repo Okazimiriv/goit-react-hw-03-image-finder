@@ -1,35 +1,73 @@
 import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
+import * as ImageService from '../service/apiService';
 import Searchbar from './Searchbar/Searchbar';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 
 import { Container } from './App.styled';
 
 export default class App extends Component {
   state = {
     images: [],
-    searchQuery: "",
-    loading: false,
+    searchQuery: '',
+    page: 1,
+    isLoading: false,
+    showModal: false,
+    isShowBtn: false,
+    isEmpty: false,
+    error: null,
   };
 
-   onSearchSubmit = (searchQuery) => {
-    this.setState({ searchQuery });
+  componentDidUpdate(_, prevState) {
+    const { searchQuery, page } = this.state;
+
+    if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
+       this.apiService(searchQuery, page);
+    }
+  }
+
+  apiService = (searchQuery, page) => {
+    this.setState({ isLoading: true });
+    ImageService.apiService(searchQuery, page)
+      .then(response => {
+        const { page: currentPage, per_page, photos, total_results } = response;
+        console.log(response);
+
+        if (!photos.length) {
+          this.setState({ isEmpty: true });
+          return;
+        }
+
+        this.setState(prevState => ({
+          images: [...prevState.images, ...photos],
+          isShowBtn: currentPage < Math.ceil(total_results / per_page),
+        }));
+      })
+      .catch(e => this.setState({ error: e.message }))
+      .finally(() => this.setState({ isLoading: false }));
   };
 
-  // componentDidMount() {
-  //   this.setState({ loading: true });
-  //   fetch(
-  //     'https://pixabay.com/api/?q=cat&page=1&key=35953983-a066171bf8548120346cceae4&image_type=photo&orientation=horizontal&per_page=12'
-  //   )
-  //     .then(res => res.json())
-  //     .then(images => this.setState({ images }))
-  //     .finally(() => this.setState({ loading: false }));
-  // }
+  onSearchSubmit = query => {
+    console.log(query );
+    this.setState({
+      images: [],
+      searchQuery: query,
+      page: 1,
+      isLoading: false,
+      showModal: false,
+      isShowBtn: false,
+      isEmpty: false,
+      error: null,
+    });
+  };
 
   render() {
+    const { images } = this.state;
     return (
-      <Container>      
+      <Container>
         <Searchbar onSubmit={this.onSearchSubmit} />
-        <ToastContainer  autoClose ={3000} theme="colored"/>      
+        <ImageGallery images={images} onImgClick={this.onGalleryImgClick} />
+        <ToastContainer autoClose={3000} theme="colored" />
       </Container>
     );
   }
