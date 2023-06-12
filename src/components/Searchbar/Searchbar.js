@@ -13,28 +13,28 @@ import {
 
 export default class Searchbar extends Component {
   state = {
-    searchQuery: '',
+    value: '',
   };
 
-  handleChange = event => {
-    this.setState({ searchQuery: event.currentTarget.value.toLowerCase() });
+  handleChange = ({ target }) => {
+    this.setState({ value: target.value.toLowerCase() });
   };
 
   onFormSubmit = event => {
     event.preventDefault();
 
-    if (this.state.searchQuery.trim() === '') {
+    if (this.state.value.trim() === '') {
       return toast.warn('Please enter key words for search', {
         icon: false,
       });
     }
 
-    this.props.onSubmit(this.state.searchQuery);
-    this.setState({ searchQuery: '' });
+    this.props.onSubmit(this.state.value);
+    this.setState({ value: '' });
   };
 
   render() {
-    const { searchQuery } = this.state;
+    const { value } = this.state;
 
     return (
       <Header>
@@ -44,7 +44,7 @@ export default class Searchbar extends Component {
           </SearchFormBtn>
 
           <SearchFormInput
-            value={searchQuery}
+            value={value}
             onChange={this.handleChange}
             type="text"
             autocomplete="off"

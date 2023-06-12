@@ -1,22 +1,25 @@
 import PropTypes from 'prop-types';
-import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryBlock } from './ImageGallery.styled';
 
-export const ImageGallery = ({ images, onImgClick }) => (
-  <ul>
-    {images.map(({ id, webformatURL, description }) => {
-      return (
-        <li key={id}>
+const ImageGallery = ({ images, onImgClick }) => {
+  return (
+    <ImageGalleryBlock onClick={onImgClick}>
+      {images.map(({ id, webformatURL, tags }) => {
+        return (
           <ImageGalleryItem
-            onClick={onImgClick}
-            src={webformatURL}
-            alt={description}
-            data-id={id}
+            webformatURL={webformatURL}
+            tags={tags}
+            id={id}
+            key={id}
           />
-        </li>
-      );
-    })}
-  </ul>
-);
+        );
+      })}
+    </ImageGalleryBlock>
+  );
+};
+
+export default ImageGallery;
 
 PropTypes.ImageGallery = {
   onImgClick: PropTypes.func.isRequired,
@@ -24,7 +27,7 @@ PropTypes.ImageGallery = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       webFormatUrl: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
     }).isRequired
   ),
 };

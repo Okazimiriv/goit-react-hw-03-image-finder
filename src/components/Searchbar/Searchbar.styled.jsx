@@ -19,7 +19,7 @@ export const Header = styled.header`
   background-color: #3f51b5;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-}`;
+`;
 // *
 //  * Стили компонента SearchForm
 //  */
@@ -31,7 +31,7 @@ export const SearchForm = styled.form`
   background-color: #fff;
   border-radius: 3px;
   overflow: hidden;
-}`;
+`;
 
 export const SearchFormBtn = styled.button`
   display: inline-block;
@@ -55,7 +55,7 @@ export const SearchFormBtn = styled.button`
       transform: scale(1.2);
     }
   }
-}`;
+`;
 
 export const SearchFormInput = styled.input`
   display: inline-block;
@@ -71,4 +71,6 @@ export const SearchFormInput = styled.input`
 ::placeholder {
   font: inherit;
   font-size: 18px;
-}`;
+`;
+
+

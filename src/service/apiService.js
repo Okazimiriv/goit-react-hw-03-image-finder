@@ -10,10 +10,10 @@ axios.defaults.params = {
   per_page: 12,
 };
 
-export const apiService = async (query, page, pagination) => {
-  const response = await axios.get(
-    `${BASE_URL}?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=${pagination}`
+export const getImages = async (query, page) => {
+  const { data } = await axios.get(
+    `${BASE_URL}?q=${query}&page=${page}&key=${API_KEY}&image_type=photo&orientation=horizontal`
   );
 
-  return response.data.hits;
+  return data;
 };

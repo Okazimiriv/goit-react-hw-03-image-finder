@@ -1,13 +1,23 @@
+import { Component } from 'react';
 import PropTypes from 'prop-types';
+import { GalleryImage, GalleryItem } from './ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ id, webformatURL, description }) => (
-  <li>
-    <img src={webformatURL} alt={description} data-id={id} />
-  </li>
-);
+class ImageGalleryItem extends Component {
+  render() {
+    const { id, webformatURL, tags } = this.props;
 
-PropTypes.ImageGalleyItem = {
+    return (
+      <GalleryItem id={id}>
+        <GalleryImage src={webformatURL} alt={tags} />
+      </GalleryItem>
+    );
+  }
+}
+
+export default ImageGalleryItem;
+
+PropTypes.ImageGalleryItem = {
   id: PropTypes.string.isRequired,
   webFormatUrl: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
 };
