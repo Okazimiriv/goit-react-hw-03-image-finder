@@ -49,6 +49,9 @@ export default class Searchbar extends Component {
             type="text"
             autocomplete="off"
             placeholder="Search images and photos"
+            name="search"
+            // required
+            autoFocus
           />
         </SearchForm>
       </Header>

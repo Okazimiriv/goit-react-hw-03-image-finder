@@ -4,11 +4,11 @@ import { GalleryImage, GalleryItem } from './ImageGalleryItem.styled';
 
 class ImageGalleryItem extends Component {
   render() {
-    const { id, webformatURL, tags } = this.props;
+    const { webformatURL, tags } = this.props;
 
     return (
-      <GalleryItem id={id}>
-        <GalleryImage src={webformatURL} alt={tags} />
+      <GalleryItem>
+        <GalleryImage src={webformatURL} alt={tags} loading="lazy" />
       </GalleryItem>
     );
   }
@@ -17,7 +17,6 @@ class ImageGalleryItem extends Component {
 export default ImageGalleryItem;
 
 PropTypes.ImageGalleryItem = {
-  id: PropTypes.string.isRequired,
   webFormatUrl: PropTypes.string.isRequired,
   tags: PropTypes.string.isRequired,
 };

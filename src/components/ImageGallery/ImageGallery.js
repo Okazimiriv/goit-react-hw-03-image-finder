@@ -7,12 +7,7 @@ const ImageGallery = ({ images, onImgClick }) => {
     <ImageGalleryBlock onClick={onImgClick}>
       {images.map(({ id, webformatURL, tags }) => {
         return (
-          <ImageGalleryItem
-            webformatURL={webformatURL}
-            tags={tags}
-            id={id}
-            key={id}
-          />
+          <ImageGalleryItem webformatURL={webformatURL} tags={tags} key={id} />
         );
       })}
     </ImageGalleryBlock>

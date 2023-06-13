@@ -5,6 +5,8 @@ export const ButtonLoadMore = styled.button`
 
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
   padding: 8px 16px;
 
   border-radius: 3px;
