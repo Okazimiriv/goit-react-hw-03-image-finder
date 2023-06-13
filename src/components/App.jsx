@@ -63,8 +63,8 @@ export default class App extends Component {
         }
         this.setState(prevState => ({
           images: [...prevState.images, ...hits],
-          // isShowBtn: page < Math.ceil(totalHits / PER_PAGE),
-          isShowBtn: true,
+          isShowBtn: 1 < Math.ceil(totalHits / PER_PAGE),
+          // isShowBtn: true,
         }));
       })
       .catch(e => this.setState({ error: e.message }))
