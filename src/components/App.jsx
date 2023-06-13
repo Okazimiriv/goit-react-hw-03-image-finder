@@ -2,10 +2,11 @@ import { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
 import * as ImageService from '../service/apiService';
 import Searchbar from './Searchbar/Searchbar';
-import ImageGallery from './ImageGallery/ImageGallery';
+import { ImageGallery } from './ImageGallery/ImageGallery';
 // import { Button } from './Button/Button';
 import { ThreeDots } from 'react-loader-spinner';
-
+import { ErrorMessage } from './ErorrMessage';
+import { Modal }  from './Modal/Modal';
 
 import { Container } from './App.styled';
 import { Text } from './Text/Text.styled';
@@ -19,11 +20,12 @@ export default class App extends Component {
     images: [],
     query: '',
     page: 1,
-    isLoading: false,
-    showModal: false,
+    isLoading: false,    
     isShowBtn: false,
     isEmpty: false,
+    showModal: false,
     error: null,
+    bigImage: ''
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -43,17 +45,13 @@ export default class App extends Component {
   }
 
   getImages = (query, page) => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: null });
 
     ImageService.getImages(query, page)
       .then(response => {
-        const { page, hits, totalHits } = response;
+        const { hits, totalHits } = response;
         console.log(response);
-        console.log('page', page);
-        console.log('hits', hits);
-        console.log('totalHits', totalHits);
-        console.log('PER_PAGE', PER_PAGE);
-
+       
         if (!hits.length) {
           this.setState({
             isEmpty: true,
@@ -67,7 +65,9 @@ export default class App extends Component {
           // isShowBtn: true,
         }));
       })
-      .catch(e => this.setState({ error: e.message }))
+      .catch((error) => {
+          this.setState({ error: 'Oops! Something went wrong! Try reloading the page!' });
+        })
       .finally(() => this.setState({ isLoading: false }));
   };
 
@@ -77,36 +77,48 @@ export default class App extends Component {
       query: value,
       images: [],
       page: 1,
-      // showModal: false,
+      showModal: false,
       isShowBtn: false,
       isEmpty: false,
       error: null,
+      bigImage: ''
     });
   };
 
   onLoadMore = () => {
-    this.setState(prevState => ({
-      page: prevState.page + 1,
-    }));
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
+ onImgClick = evt => {
+    this.setState({ showModal: true });
+    this.setState({ bigImage: evt.target.dataset.bigimg });
+  };
+  onCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  
   render() {
-    const { images, isLoading, isEmpty, isShowBtn } = this.state;
+    const { images, isLoading, isEmpty, isShowBtn, error, showModal, bigImage } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.onSearchSubmit} />
         <ToastContainer autoClose={3000} theme="colored" />
-        <ImageGallery images={images} onImgClick={this.onGalleryImgClick} />
+        <ImageGallery images={images} onImgClick={this.onImgClick} />
         {isEmpty && <Text>Sorry. There are no images...😕 </Text>}
         {/* {isLoading && <Text>Loading ... </Text>} */}        
         {isLoading && (<Loader>
           <ThreeDots color="#00BFFF" />
-        </Loader>)}
+        </Loader>)}      
         {isShowBtn && (
           <ButtonLoadMore type="button" onClick={this.onLoadMore}>
             Load more
           </ButtonLoadMore>
         )}
+        {showModal && (
+          <Modal onClose={this.onCloseModal} bigImage={bigImage}></Modal>
+        )}
+        {error && <ErrorMessage>{(error)}</ErrorMessage>}
       </Container>
     );
   }
