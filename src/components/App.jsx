@@ -25,7 +25,7 @@ export default class App extends Component {
     isEmpty: false,
     showModal: false,
     error: null,
-    bigImage: ''
+    modalImage: ''
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -81,7 +81,7 @@ export default class App extends Component {
       isShowBtn: false,
       isEmpty: false,
       error: null,
-      bigImage: ''
+      modalImage: ''
     });
   };
 
@@ -91,7 +91,7 @@ export default class App extends Component {
 
  onImgClick = evt => {
     this.setState({ showModal: true });
-    this.setState({ bigImage: evt.target.dataset.bigimg });
+    this.setState({ modalImage: evt.target.dataset.bigimg });
   };
   onCloseModal = () => {
     this.setState({ showModal: false });
@@ -99,7 +99,7 @@ export default class App extends Component {
 
   
   render() {
-    const { images, isLoading, isEmpty, isShowBtn, error, showModal, bigImage } = this.state;
+    const { images, isLoading, isEmpty, isShowBtn, error, showModal, modalImage } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.onSearchSubmit} />
@@ -116,7 +116,7 @@ export default class App extends Component {
           </ButtonLoadMore>
         )}
         {showModal && (
-          <Modal onClose={this.onCloseModal} bigImage={bigImage}></Modal>
+          <Modal onClose={this.onCloseModal} bigImage={modalImage}></Modal>
         )}
         {error && <ErrorMessage>{(error)}</ErrorMessage>}
       </Container>
