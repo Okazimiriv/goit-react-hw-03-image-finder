@@ -103,7 +103,7 @@ export default class App extends Component {
     return (
       <Container>
         <Searchbar onSubmit={this.onSearchSubmit} />
-        <ToastContainer autoClose={3000} theme="colored" />
+        <ToastContainer autoClose={3000} theme="colored" style={{ top: "1px" }} />
         <ImageGallery images={images} onImgClick={this.onImgClick} />
         {isEmpty && <Text>Sorry. There are no images...😕 </Text>}
         {/* {isLoading && <Text>Loading ... </Text>} */}        
