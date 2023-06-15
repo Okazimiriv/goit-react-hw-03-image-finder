@@ -55,7 +55,7 @@ export default class App extends Component {
         if (!hits.length) {
           this.setState({
             isEmpty: true,
-            showMoreBtn: false,
+            isShowBtn: false,
           });
           return;
         }
